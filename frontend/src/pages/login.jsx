@@ -1,107 +1,120 @@
 import { useState } from "react";
+import { useNavigate } from "react-router";
 import axios from "axios";
-import "./login.css";
+import "./Login.css";
 
 function Login() {
-    const [usuario, setUsuario] = useState("");
-    const [contrasena, setContrasena] = useState("");
-    const [mensaje, setMensaje] = useState("");
-    const [cargando, setCargando] = useState(false);
+  const [usuario, setUsuario] = useState("");
+  const [contrasena, setContrasena] = useState("");
+  const [mensaje, setMensaje] = useState("");
+  const [cargando, setCargando] = useState(false);
 
-    const iniciarSesion = async (evento) => {
-        evento.preventDefault();
-        setMensaje("");
-        setCargando(true);
+  const navigate = useNavigate();
 
-        try{
-            const respuesta = await axios.post(
-                "http://localhost:3000/api/auth/login",
-                {
-                    usuario,
-                    contrasena,
-                }
-            );
+  const iniciarSesion = async (evento) => {
+    evento.preventDefault();
+    setMensaje("");
+    setCargando(true);
 
-            setMensaje(respuesta.data.mensaje);
-
-            //Guardamos temporalmente los del usuario
-
-            localStorage.setItem(
-                "usuarioClasshub",
-                JSON.stringify(respuesta.data.usuario)
-            );
-
-        console.log("Usuario Autenticado:", respuesta.data.usuario);
-        } catch (error) {
-            const mensajeError = 
-            error.response?.data?.mensaje ||
-            "No se pudo conectar con el servidor";
-
-            setMensaje(mensajeError);
-        } finally { 
-            setCargando(false);
+    try {
+      const respuesta = await axios.post(
+        "http://localhost:3000/api/auth/login",
+        {
+          usuario,
+          contrasena,
         }
-    };
+      );
 
-    return (
-        <main className="Login-page">
-            <section className= "login-card">
-                <div className="login-brand">
-                    <span className="login-logo">CH</span>
+      const usuarioAutenticado = respuesta.data.usuario;
 
-                    <div>
-                        <h1>ClassHub</h1>
-                        <p>Gestion inteligente de aulas universitarias</p>
-                    </div>
-                </div>
+      // Guardamos temporalmente los datos del usuario.
+      localStorage.setItem(
+        "usuarioClassHub",
+        JSON.stringify(usuarioAutenticado)
+      );
 
-                <div className="login-heading">
-                    <h2>Bienvenido</h2>
-                    <p>Ingresa tus credenciales para continuar</p>
-             </div>
+      console.log("Usuario autenticado:", usuarioAutenticado);
 
-             <form onSubmit={iniciarSesion}>
-                <div className="form-group">
-                    <label htmlFor="usuario">Usuario</label>
+      // Redirección según el rol.
+      if (usuarioAutenticado.rol === "Administrador") {
+        navigate("/dashboard/admin");
+      } else if (usuarioAutenticado.rol === "Profesor") {
+        navigate("/dashboard/profesor");
+      } else if (usuarioAutenticado.rol === "Alumno") {
+        navigate("/dashboard/alumno");
+      } else {
+        setMensaje("El usuario no tiene un rol válido.");
+      }
+    } catch (error) {
+      const mensajeError =
+        error.response?.data?.mensaje ||
+        "No se pudo conectar con el servidor.";
 
-                    <input
-                    id="usuario"
-                    type="text"
-                    value={usuario}
-                    onChange={(evento) => setUsuario(evento.target.value)}
-                    placeholder="Ej.: admin"
-                    autoComplete="username"
-                    required
-                    />
-                    </div>
+      setMensaje(mensajeError);
+    } finally {
+      setCargando(false);
+    }
+  };
 
-                    <div className="form-group">
-                        <label htmlFor="contrasena">Contraseña</label>
+  return (
+    <main className="login-page">
+      <section className="login-card">
+        <div className="login-brand">
+          <span className="login-logo">CH</span>
 
-                        <input
-                        id="contrasena"
-                        type="password"
-                        value={contrasena}
-                        onChange={(evento) => setContrasena(evento.target.value)}
-                        placeholder="Ingresa tu contraseña"
-                        autoComplete="current-password"
-                        required
-                        />
-                    </div>
+          <div>
+            <h1>ClassHub</h1>
+            <p>Gestión inteligente de aulas universitarias</p>
+          </div>
+        </div>
 
-                    <button type="submit" disabled={cargando}>
-                        {cargando ? "Ingresando..." : "Iniciar sesion"}
-                        </button>
-                    </form>
+        <div className="login-heading">
+          <h2>Bienvenido</h2>
+          <p>Ingresá tus credenciales para continuar</p>
+        </div>
 
-                    {mensaje && <p className="login-message">{mensaje}</p>}
+        <form onSubmit={iniciarSesion}>
+          <div className="form-group">
+            <label htmlFor="usuario">Usuario</label>
 
-                    <p className="login-footer">
-                        Acceso exclusivo para usuarios autorizados
-                    </p>
-                </section>
-            </main>
-    );
+            <input
+              id="usuario"
+              type="text"
+              value={usuario}
+              onChange={(evento) => setUsuario(evento.target.value)}
+              placeholder="Ej.: admin"
+              autoComplete="username"
+              required
+            />
+          </div>
+
+          <div className="form-group">
+            <label htmlFor="contrasena">Contraseña</label>
+
+            <input
+              id="contrasena"
+              type="password"
+              value={contrasena}
+              onChange={(evento) => setContrasena(evento.target.value)}
+              placeholder="Ingresá tu contraseña"
+              autoComplete="current-password"
+              required
+            />
+          </div>
+
+          <button type="submit" disabled={cargando}>
+            {cargando ? "Ingresando..." : "Iniciar sesión"}
+          </button>
+        </form>
+
+        {mensaje && <p className="login-message">{mensaje}</p>}
+
+        <p className="login-footer">
+          Acceso exclusivo para usuarios autorizados
+        </p>
+      </section>
+    </main>
+  );
 }
 
 export default Login;
