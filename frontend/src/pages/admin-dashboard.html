@@ -1,0 +1,85 @@
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Panel de Administrador ClassHUB</title>
+    <link rel="stylesheet" href="style-dashboard.css">
+    <script src="https://kit.fontawesome.com/a076d05399.js" crossorigin="anonymous"></script>
+
+</head>
+<body>
+    <!-- Encabezado superior-->
+    <header class="header">
+        <div class="logo-box">
+            <span class="brand-tag">ch</span>
+        </div>
+
+    <div class="user-menu">
+        <div class="user-pill">
+            <i class="fas fa-user-circle avatar-icon"></i>
+            <span id="rolUsuario">Administrador</span>
+            <i class="fas fa-chevron-down arrow-icon"></i>
+        </div>
+    </div>
+</header>
+
+<!-- Boton lateral de menu-->
+ <button class="menu-toggle-btn" id="btnToggleMenu" title="Abrir Menu">
+    <span>&#10095;&#10095;&#10095;</span>
+ </button>
+    
+<!-- Contenido Principal-->
+ <main class="dashboard-container">
+
+<!--Mensaje de Bienvenida-->
+ <section class="welcome-message">
+     <h1>Bienvenido</h1>
+     <h2 class="user-name" id="nombreusuario">Administrador</h2>
+ </section>
+
+ <!-- Buscador / entrada rapida-->
+  <div class="search-bar-container">
+    <div class="search-pill">
+        <input type="text" placeholder="¿Que necesita hacer hoy?" id="inputBusquedaRapida">
+        <button class="send-btn" id="btnEnviarAccion">
+            <svg class="send-icon" viewBox="0 0 24 24">
+                <path d="M2.01 21L23 12 2.01 3 2 10l15 2-15 2z"/>
+            </svg>
+        </button>
+    </div>
+  </div>
+  <!-- Seccion de Acciones Rapidas-->
+   <section class="quick-actions-section">
+      <p class="section-label">Acciones rápidas</p>
+      
+      <div class="actions-grid">
+        <button class="action-card" onclick="location.href='/mapa'">
+          <i class="fas fa-map-marked-alt"></i>
+          <span>Mapa de Aulas</span>
+        </button>
+        
+        <button class="action-card" onclick="location.href='/buzon'">
+          <i class="fas fa-inbox"></i>
+          <span>Buzón de Solicitudes</span>
+        </button>
+        
+        <button class="action-card" onclick="location.href='/reportes'">
+          <i class="fas fa-exclamation-triangle"></i>
+          <span>Reportes de Fallas</span>
+        </button>
+      </div>
+    </section>
+
+  </main>
+
+  <script src="/socket.io/socket.io.js"></script>
+  <script>
+    // Obtener los datos del usuario logueado desde localStorage o backend
+    const usuarioLogueado = JSON.parse(localStorage.getItem('usuario')) || { nombre: 'Mathias', rol: 'Administrador' };
+    
+    document.getElementById('nombreUsuario').textContent = usuarioLogueado.nombre;
+    document.getElementById('rolUsuario').textContent = usuarioLogueado.rol;
+  </script>
+</body>
+</html>
