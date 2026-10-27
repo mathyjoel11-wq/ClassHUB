@@ -1,3 +1,4 @@
+
 import { useState } from "react";
 import { useNavigate } from "react-router";
 import axios from "axios";
@@ -27,7 +28,12 @@ function Login() {
 
       const usuarioAutenticado = respuesta.data.usuario;
 
-      // Guardamos temporalmente los datos del usuario.
+      if (!usuarioAutenticado) {
+        setMensaje("El servidor no devolvió los datos del usuario.");
+        return;
+      }
+
+      // Guardamos los datos del usuario autenticado.
       localStorage.setItem(
         "usuarioClassHub",
         JSON.stringify(usuarioAutenticado)
@@ -35,17 +41,30 @@ function Login() {
 
       console.log("Usuario autenticado:", usuarioAutenticado);
 
-      // Redirección según el rol.
-      if (usuarioAutenticado.rol === "Administrador") {
+      // Normalizamos el rol para evitar problemas con mayúsculas.
+      const rol = usuarioAutenticado.rol?.trim().toLowerCase();
+
+      // Redirección según el rol recibido desde Supabase.
+      if (rol === "admin" || rol === "administrador") {
         navigate("/dashboard/admin");
-      } else if (usuarioAutenticado.rol === "Profesor") {
+      } else if (rol === "profesor") {
         navigate("/dashboard/profesor");
-      } else if (usuarioAutenticado.rol === "Alumno") {
+      } else if (rol === "alumno") {
         navigate("/dashboard/alumno");
       } else {
-        setMensaje("El usuario no tiene un rol válido.");
+        localStorage.removeItem("usuarioClassHub");
+        setMensaje(
+          `El usuario no tiene un rol válido. Rol recibido: ${
+            usuarioAutenticado.rol ?? "ninguno"
+          }`
+        );
       }
     } catch (error) {
+      console.error(
+        "Error al iniciar sesión:",
+        error.response?.data || error.message
+      );
+
       const mensajeError =
         error.response?.data?.mensaje ||
         "No se pudo conectar con el servidor.";
@@ -107,7 +126,11 @@ function Login() {
           </button>
         </form>
 
-        {mensaje && <p className="login-message">{mensaje}</p>}
+        {mensaje && (
+          <p className="login-message" role="alert">
+            {mensaje}
+          </p>
+        )}
 
         <p className="login-footer">
           Acceso exclusivo para usuarios autorizados
