@@ -1,13 +1,15 @@
+import { useNavigate } from "react-router";
 import "./style-dashboard.css";
 
 function DashboardAdmin() {
-  let usuario = null;
-
-  try {
-    usuario = JSON.parse(localStorage.getItem("usuarioClassHub"));
-  } catch {
-    usuario = null;
-  }
+  const navigate = useNavigate();
+  const usuario = (() => {
+    try {
+      return JSON.parse(localStorage.getItem("usuarioClassHub"));
+    } catch {
+      return null;
+    }
+  })();
 
   const nombreGuardado = [usuario?.nombre, usuario?.apellido].filter(Boolean).join(" ");
   const nombre = nombreGuardado === "Administrador Sistema" ? "Administrador" : nombreGuardado || "Administrador";
@@ -49,7 +51,15 @@ function DashboardAdmin() {
         <section className="quick-actions-section">
           <p className="section-label">Acciones rápidas</p>
           <div className="actions-grid">
-            <button className="action-card" type="button"><span aria-hidden="true">▦</span><span>Mapa de Aulas</span></button>
+            {/* Botón conectado para ir al Mapa de Aulas */}
+            <button 
+              className="action-card" 
+              type="button" 
+              onClick={() => navigate("/mapa")}
+            >
+              <span aria-hidden="true">▦</span>
+              <span>Mapa de Aulas</span>
+            </button>
             <button className="action-card" type="button"><span aria-hidden="true">▤</span><span>Buzón de Solicitudes</span></button>
             <button className="action-card" type="button"><span aria-hidden="true">⚠</span><span>Reportes de Fallas</span></button>
           </div>

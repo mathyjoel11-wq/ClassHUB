@@ -1,0 +1,127 @@
+
+<!DOCTYPE html>
+<html lang="es">
+<head>
+    <meta charset="UTF-8">
+    <meta name="viewport" content="width=device-width, initial-scale=1.0">
+    <title>Mapa de Aulas | ClassHub</title>
+    <link rel="stylesheet" href="mapa.css">
+</head>
+<body>
+
+    <header class="topbar">
+        <a href="/admin-dashboard.html" class="back-button">←</a>
+
+        <div class="brand">
+            <span class="brand-logo">CH</span>
+            <div>
+                <h1>ClassHub</h1>
+                <p>Mapa de aulas</p>
+            </div>
+        </div>
+    </header>
+
+    <main class="container">
+
+        <section class="page-heading">
+            <div>
+                <span class="eyebrow">DISTRIBUCIÓN DE LA FACULTAD</span>
+                <h2>Mapa de aulas</h2>
+                <p>Seleccioná un aula para consultar su información.</p>
+            </div>
+
+            <div class="floor-selector">
+                <label for="selectorPlanta">Seleccionar planta</label>
+                <select id="selectorPlanta">
+                    <option value="base">Planta base</option>
+                    <option value="primer" disabled>Primer piso · Próximamente</option>
+                    <option value="segundo" disabled>Segundo piso · Próximamente</option>
+                </select>
+            </div>
+        </section>
+
+        <section class="map-card">
+
+            <div class="map-header">
+                <h3>Planta base</h3>
+                <span class="map-status">Plano interactivo</span>
+            </div>
+
+            <div class="legend">
+                <span><i class="legend-box available"></i> Disponible</span>
+                <span><i class="legend-box reserved"></i> Reservada</span>
+                <span><i class="legend-box unavailable"></i> No disponible</span>
+            </div>
+
+            <div class="map-scroll">
+                <svg class="floor-map"
+                     viewBox="0 0 700 950"
+                     role="group"
+                     aria-label="Plano interactivo de aulas de la planta base">
+
+                    <!-- Área general y pasillos -->
+                    <path class="floor-area"
+                          d="M115 35 L610 55 L650 850 L250 875 Z"/>
+
+                    <path class="corridor"
+                          d="M170 170 L570 180 L580 820 L300 830 L260 270 Z"/>
+
+                    <path class="corridor"
+                          d="M180 130 L570 140 L575 185 L180 175 Z"/>
+
+                    <!-- Aula 3: referencia 27 -->
+                    <g class="classroom available"
+                       data-aula="3"
+                       data-referencia="27"
+                       tabindex="0"
+                       role="button"
+                       aria-label="Seleccionar Aula 3">
+                        <rect x="175" y="45" width="105" height="120" rx="3"/>
+                        <text x="227" y="105">AULA 3</text>
+                    </g>
+
+                    <!-- Aula 2: referencia 30 -->
+                    <g class="classroom available"
+                       data-aula="2"
+                       data-referencia="30"
+                       tabindex="0"
+                       role="button"
+                       aria-label="Seleccionar Aula 2">
+                        <rect x="475" y="55" width="135" height="120" rx="3"/>
+                        <text x="542" y="115">AULA 2</text>
+                    </g>
+
+                    <!-- Aula 1: referencia 36 -->
+                    <g class="classroom available"
+                       data-aula="1"
+                       data-referencia="36"
+                       tabindex="0"
+                       role="button"
+                       aria-label="Seleccionar Aula 1">
+                        <rect x="470" y="620" width="125" height="150" rx="3"/>
+                        <text x="532" y="695">AULA 1</text>
+                    </g>
+
+                </svg>
+            </div>
+
+            <p class="map-note">
+                Distribución visual inicial basada en el plano de referencia.
+                Las medidas y posiciones se ajustarán durante el relevamiento.
+            </p>
+
+        </section>
+
+        <section class="info-card" id="infoAula">
+            <div class="info-empty">
+                <span class="info-icon">⌖</span>
+                <h3>Seleccioná un aula</h3>
+                <p>La información del aula aparecerá aquí.</p>
+            </div>
+        </section>
+
+    </main>
+
+    <script src="mapa.js"></script>
+</body>
+</html>
