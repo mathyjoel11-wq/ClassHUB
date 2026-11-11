@@ -27,13 +27,14 @@ function Login() {
       );
 
       const usuarioAutenticado = respuesta.data.usuario;
+      const token = respuesta.data.token;
 
-      if (!usuarioAutenticado) {
-        setMensaje("El servidor no devolvió los datos del usuario.");
+      if (!usuarioAutenticado || !token) {
+        setMensaje("El servidor no devolvió los datos de sesión necesarios.");
         return;
       }
 
-      // Guardamos los datos del usuario autenticado.
+      localStorage.setItem("tokenClassHub", token);
       localStorage.setItem(
         "usuarioClassHub",
         JSON.stringify(usuarioAutenticado)
@@ -45,13 +46,18 @@ function Login() {
       const rol = usuarioAutenticado.rol?.trim().toLowerCase();
 
       // Redirección según el rol recibido desde Supabase.
-      if (rol === "admin" || rol === "administrador") {
+      if (
+        rol === "admin" ||
+        rol === "administrador" ||
+        rol === "administrador sistema"
+      ) {
         navigate("/dashboard/admin");
       } else if (rol === "profesor") {
         navigate("/dashboard/profesor");
       } else if (rol === "alumno") {
         navigate("/dashboard/alumno");
       } else {
+        localStorage.removeItem("tokenClassHub");
         localStorage.removeItem("usuarioClassHub");
         setMensaje(
           `El usuario no tiene un rol válido. Rol recibido: ${

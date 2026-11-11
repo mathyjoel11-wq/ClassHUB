@@ -1,5 +1,6 @@
 
 const conexion = require("../config/db");
+const jwt = require("jsonwebtoken");
 
 const iniciarSesion = async (req, res) => {
     const { usuario, contrasena } = req.body;
@@ -52,8 +53,18 @@ const iniciarSesion = async (req, res) => {
             });
         }
 
+        const token = jwt.sign(
+            {
+                id: usuarioEncontrado.id_usuario,
+                rol: usuarioEncontrado.rol,
+            },
+            process.env.JWT_SECRET,
+            { expiresIn: "8h" }
+        );
+
         return res.status(200).json({
             mensaje: "Inicio de sesión exitoso",
+            token,
             usuario: {
                 id: usuarioEncontrado.id_usuario,
                 nombre: usuarioEncontrado.nombre,

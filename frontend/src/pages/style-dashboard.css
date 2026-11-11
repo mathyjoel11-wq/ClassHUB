@@ -174,3 +174,137 @@
   transform: translateY(-3px);
   background-color: #b3d772;
 }
+
+.admin-dashboard .notif-wrapper {
+  position: relative;
+}
+
+.admin-dashboard .notif-indicator {
+  position: relative;
+  display: grid;
+  place-items: center;
+  width: 42px;
+  height: 42px;
+  border: 0;
+  border-radius: 50%;
+  background: #1b1b1b;
+  color: #fff;
+  font-size: 1.2rem;
+  cursor: pointer;
+}
+
+.admin-dashboard .notif-indicator:hover,
+.admin-dashboard .notif-indicator:focus-visible {
+  background: #303030;
+  outline: 2px solid #a4c666;
+}
+
+.admin-dashboard .notif-badge {
+  position: absolute;
+  top: -4px;
+  right: -5px;
+  min-width: 20px;
+  padding: 2px 5px;
+  border-radius: 999px;
+  background: #d64545;
+  color: #fff;
+  font-size: 0.7rem;
+  font-weight: 700;
+  line-height: 1.2;
+}
+
+.admin-dashboard .notif-panel {
+  position: absolute;
+  z-index: 20;
+  top: calc(100% + 12px);
+  right: 0;
+  width: min(380px, calc(100vw - 32px));
+  max-height: min(70vh, 560px);
+  overflow: hidden;
+  border: 1px solid #3c3c3c;
+  border-radius: 14px;
+  background: #171717;
+  box-shadow: 0 16px 40px rgba(0, 0, 0, 0.5);
+  color: #fff;
+}
+
+.admin-dashboard .notif-panel-header {
+  display: flex;
+  align-items: center;
+  justify-content: space-between;
+  padding: 16px 18px;
+  border-bottom: 1px solid #353535;
+}
+
+.admin-dashboard .notif-panel-header h2 {
+  font-size: 1rem;
+  font-weight: 600;
+}
+
+.admin-dashboard .notif-close {
+  border: 0;
+  background: transparent;
+  color: #c8c8c8;
+  font-size: 1.5rem;
+  line-height: 1;
+  cursor: pointer;
+}
+
+.admin-dashboard .notif-list {
+  max-height: calc(min(70vh, 560px) - 58px);
+  overflow-y: auto;
+  list-style: none;
+}
+
+.admin-dashboard .notif-item {
+  padding: 15px 18px;
+  border-bottom: 1px solid #303030;
+}
+
+.admin-dashboard .notif-item:last-child {
+  border-bottom: 0;
+}
+
+.admin-dashboard .notif-item strong {
+  display: block;
+  color: #c3df8c;
+  font-size: 0.92rem;
+  overflow-wrap: anywhere;
+}
+
+.admin-dashboard .notif-item p {
+  margin-top: 7px;
+  color: #e0e0e0;
+  font-size: 0.88rem;
+  line-height: 1.45;
+  white-space: pre-wrap;
+  overflow-wrap: anywhere;
+}
+
+.admin-dashboard .notif-item time {
+  display: block;
+  margin-top: 9px;
+  color: #aaa;
+  font-size: 0.75rem;
+}
+
+.admin-dashboard .notif-state {
+  padding: 22px 18px;
+  color: #c4c4c4;
+  font-size: 0.88rem;
+  line-height: 1.5;
+}
+
+.admin-dashboard .notif-error {
+  color: #ff9a9a;
+}
+
+@media (max-width: 520px) {
+  .admin-dashboard .header {
+    padding: 16px;
+  }
+
+  .admin-dashboard .notif-panel {
+    right: -64px;
+  }
+}
