@@ -8,6 +8,7 @@ require("./config/db");
 
 const authRoutes = require("./routes/authRoutes");
 const reportRoutes = require("./routes/reportRoutes");
+const solicitudRoutes = require("./routes/solicitudRoutes");
 
 const app = express();
 
@@ -24,6 +25,7 @@ app.get("/", (req, res) => {
 //Rutas del modulo de autenticacion
 app.use("/api/auth", authRoutes);
 app.use("/api/reportes", reportRoutes);
+app.use("/api/solicitudes", solicitudRoutes);
 
 const PORT = 3000;
 
