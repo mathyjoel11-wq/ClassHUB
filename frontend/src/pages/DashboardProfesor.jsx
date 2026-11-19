@@ -124,7 +124,7 @@ function DashboardProfesor() {
         <section className="quick-actions-section">
           <p className="section-label">Acciones rápidas</p>
           <div className="actions-grid">
-            <button className="action-card" type="button" onClick={() => navigate("/mapa")}>
+            <button className="action-card" type="button" onClick={() => navigate("/mapa", { state: { returnTo: "/dashboard/profesor" } })}>
               <span aria-hidden="true">▦</span><span>Mapa de Aulas</span>
             </button>
             <button className="action-card" type="button" onClick={() => { setError(""); setModalSolicitudAbierto(true); }}>

@@ -1,9 +1,10 @@
 import { useState } from "react";
-import { useNavigate } from "react-router";
+import { useLocation, useNavigate } from "react-router";
 import "./MapaAulas.css";
 
 function MapaAulas() {
   const navigate = useNavigate();
+  const location = useLocation();
 
   // Estado inicial de prueba de las aulas (true = Ocupado / Rojo, false = Libre / Blanco)
   const [aulasOcupadas, setAulasOcupadas] = useState({
@@ -49,7 +50,7 @@ function MapaAulas() {
   return (
     <div className="mapa-page">
       <header className="mapa-header">
-        <button className="btn-volver" onClick={() => navigate("/dashboard/admin")}>
+        <button className="btn-volver" onClick={() => navigate(location.state?.returnTo || "/dashboard/admin")}>
           ← Volver al Dashboard
         </button>
         <h1>Mapa Interactivo de Aulas</h1>

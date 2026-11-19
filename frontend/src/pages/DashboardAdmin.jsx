@@ -234,7 +234,7 @@ function DashboardAdmin() {
       <main className="dashboard-container">
         <section className="welcome-section">
           <h1 className="welcome-title">Bienvenido</h1>
-          <h2 className="user-name">{nombre}</h2>
+          <h2 className="user-name">Administrador Unades</h2>
         </section>
 
         <div className="search-bar-container">
